@@ -12,7 +12,7 @@
 
 	.row
 		.col.text-xs-center
-			h4.items-stretch	
+			h4.items-stretch
 				i.fas.fa-sun.fa-5x
 		.col.text-xs-center
 			h4.items-stretch
