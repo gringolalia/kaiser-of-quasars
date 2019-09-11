@@ -1,44 +1,46 @@
-image: vgaidarji/docker-android-cordova:latest
+image: node:10.15.3
 
 cache:
+  untracked: true
   paths:
-  - node_modules/
+    - node_modules/
 
 stages:
-  - build
+  - setup
   - test
+  - build
+  - deploy
 
-build_job:
-  stage: build
-  before_script:
-    - node -v
-    - npm -v
+setup:
+  stage: setup
   script:
-    - npm install
-    - cd cordova
-    - cordova platform add android --save
-    - cordova platform ls
-    - cordova build android --release --device
-    - cordova build android --debug --device
-    - cd ..
-  artifacts:
-    name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}"
-    paths:
-      - cordova/platforms/android/build/outputs/apk/*.apk
-  environment:
-    name: production
+    - npm ci
+  only:
+    - master
 
-test_job:
+test:
   stage: test
-  before_script:
-    - node -v
-    - npm -v
   script:
-    - npm install
-    - npm run unit
+    - npm run test:unit
+  only:
+    - master
+
+build:
+  stage: build
+  script:
+    - npm run build
   artifacts:
-    name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}"
     paths:
-      - test/unit/coverage/*.*
-  environment:
-    name: production
+      - dist
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  script:
+    - npm i -g netlify-cli
+    - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
+  dependencies:
+    - build
+  only:
+    - master

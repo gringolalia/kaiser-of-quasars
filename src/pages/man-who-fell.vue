@@ -1,5 +1,5 @@
 <template lang="pug">
-w
+div
 	img(alt='Quasar Phasuar', src='~assets/hammer-sickle.svg', width='200px')
 
 	h3.q-display-2.q-my-sm He Fell To Earth
