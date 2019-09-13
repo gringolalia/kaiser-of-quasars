@@ -7,7 +7,8 @@
   "author": "gringolalia@gmail.com <gringolalia@gmail.com>",
   "private": true,
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+		"deploy": "push-dir --dir=dist/spa --remote=gh-pages --branch=master"
   },
   "dependencies": {
     "pug": "^2.0.3",
@@ -16,6 +17,7 @@
     "quasar-nuxt": "^0.16.0-alpha.2"
   },
   "devDependencies": {
+    "push-dir": "^0.4.1",
     "quasar-cli": "^0.17.0",
     "strip-ansi": "=3.0.1"
   },
